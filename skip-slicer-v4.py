@@ -180,9 +180,9 @@ def get_phone_data(df):
             
             if pd.notna(phone_num) and phone_num != '':
                 if phone_type.lower() == 'mobile':
-                    phones['mobile'].append(str(phone_num))
+                    phones['mobile'].append(str(int(phone_num)))
                 elif phone_type.lower() == 'residential':
-                    phones['residential'].append(str(phone_num))
+                    phones['residential'].append(str(int(phone_num)))
         
         phone_data.append(phones)
     
@@ -275,9 +275,9 @@ def create_roor_record(row, mobile_phones):
         'PropertyCity': row.get('Parcel City', ''),
         'PropertyState': row.get('Parcel State', ''),
         'PropertyZip': row.get('Parcel Zip', ''),
-        'Phone1': mobile_phones[0] if len(mobile_phones) > 0 else '',
-        'Phone2': mobile_phones[1] if len(mobile_phones) > 1 else '',
-        'Phone3': mobile_phones[2] if len(mobile_phones) > 2 else '',
+        'Phone1': str(int(float(mobile_phones[0]))) if len(mobile_phones) > 0 and mobile_phones[0] != '' else '',
+        'Phone2': str(int(float(mobile_phones[1]))) if len(mobile_phones) > 1 and mobile_phones[1] != '' else '',
+        'Phone3': str(int(float(mobile_phones[2]))) if len(mobile_phones) > 2 and mobile_phones[2] != '' else '',
         'APN': row.get('APN', ''),
         'PropertyCounty': row.get('Parcel County', ''),
         'Acreage': row.get('Calc Acreage', '')
@@ -293,7 +293,7 @@ def create_readymode_record(row, residential_phones, landportal_columns):
     for i in range(4):
         phone_key = f'Phone{i+1}'
         if i < len(residential_phones):
-            record[phone_key] = residential_phones[i]
+            record[phone_key] = str(int(float(residential_phones[i]))) if residential_phones[i] != '' else ''
         else:
             record[phone_key] = ''
     
